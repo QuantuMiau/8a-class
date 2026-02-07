@@ -50,20 +50,23 @@ public class Operations {
         System.out.println("Ingrese la cantidad de numeros del arreglo.");
         int arrayLeng = sc.nextInt();
 
-        System.out.println("Ingrese la posicion desde la que que desea dividir.");
-        int numberToSplit = sc.nextInt();
+
 
         int [] arrayNumber = new int[arrayLeng];
 
         for (int e = 0; e < arrayNumber.length; e++) {
-            System.out.println("Ingrese el numero: " + e);
+            System.out.println("Ingrese el numero: " + (e + 1));
             int tempNumber = sc.nextInt();
             arrayNumber[e] = tempNumber;
         }
 
+        System.out.println(Arrays.toString(arrayNumber));
+        System.out.println("Ingrese el numero desde el que que desea dividir.");
+        int numberToSplit = sc.nextInt();
+
         for (int i = 0; i < arrayNumber.length; i++) {
-            if ( i == numberToSplit) {
-                index = i;
+            if (arrayNumber[i] == numberToSplit) {
+                index = i+1;
                 break;
             }
         }
