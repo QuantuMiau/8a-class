@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class SimpleLinkedList {
     Node head;
+    int quantity;
 
     public Node getHead() {
         return head;
@@ -17,6 +18,7 @@ public class SimpleLinkedList {
         Node input  = new Node(data);
         if(head == null) {
             head = input;
+            quantity++;
         }else {
 
             Node temporal = head;
@@ -25,6 +27,7 @@ public class SimpleLinkedList {
             }
 
             temporal.puntero  =  input;
+            quantity++;
         }
     }
 
@@ -46,6 +49,7 @@ public class SimpleLinkedList {
         if (head != null) {
             input.puntero = head;
             head = input;
+            quantity++;
         } else {
             System.out.println("Error: no hay nodos");
         }
@@ -104,6 +108,7 @@ public class SimpleLinkedList {
 
         if (head.data == data) {
             head = head.puntero;
+            quantity--;
             return;
         }
 
@@ -121,6 +126,7 @@ public class SimpleLinkedList {
         }
 
         lastNode.puntero  = actual.puntero;
+        quantity--;
         System.out.println("Nodo eliminado");
     }
 
@@ -150,12 +156,49 @@ public class SimpleLinkedList {
         System.out.println("Nodo actualizado :D");
 
     }
+    private void newNodePosition(int position, int data){
+        Node temp = head;
+        Node newNode = new Node(data);
+        int count = 1;
+
+        if (position > quantity + 1) {
+            System.out.println("La posicion no existe, nodos disponibles" + quantity);
+            return;
+        }
+
+        if (head == null){
+            System.out.println("No hay nodos disponibles");
+            return;
+        }
+
+        if (position == 1) {
+            insertBeforeData(data);
+            return;
+        }
+
+        while (count < position - 1) {
+            temp = temp.puntero;
+            count++;
+        }
+
+
+        if(temp.puntero == null) {
+            insertData(data);
+            return;
+        }
+
+        newNode.puntero = temp.puntero;
+        temp.puntero = newNode;
+        quantity++;
+
+    }
 
     public void linkedListMenu(){
         Scanner sc = new Scanner(System.in);
         int menuSelection;
 
         do {
+            System.out.println("qty " + quantity);
             System.out.println("""
                     +++ Nodos +++
                     Seleccione una de las siguiente opciones.
@@ -165,7 +208,8 @@ public class SimpleLinkedList {
                     4. Buscar el nodo de un numero.
                     5. Cambiar el valor de un nodo.
                     6. Promedio de los nodos.
-                    7. Salir.
+                    7. Insertar en posicion.
+                    8. Salir.
                     """);
              menuSelection = sc.nextInt();
 
@@ -226,12 +270,21 @@ public class SimpleLinkedList {
                      averageNode();
                      break;
                  case 7:
+                     System.out.println("Ingrese el valor la posicion donde se insertara");
+                     int nodePosition = sc.nextInt();
+                     System.out.println("Ingrese el valor del nuevo nodo");
+                     int newNode = sc.nextInt();
+
+                     newNodePosition(nodePosition, newNode);
+
+                     break;
+                 case 8:
                      System.out.println("Adioooooooooooos!!! ");
                      break;
                  default:
                      break;
              }
-        } while (menuSelection != 7);
+        } while (menuSelection != 8);
     }
 }
 //
