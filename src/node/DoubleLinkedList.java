@@ -4,10 +4,12 @@ import java.util.Scanner;
 
 public class DoubleLinkedList {
     private Node head;
+    private Node tail;
     private int qty;
 
     public DoubleLinkedList() {
         this.head = null;
+        this.tail = null;
         this.qty = 0;
     }
 
@@ -47,13 +49,10 @@ public class DoubleLinkedList {
         qty++;
     }
 
-    /**
-     * Inserta un nodo al inicio de la lista doble (antes de la cabeza actual).
-     */
     private void insertBeforeData(int data) {
         Node newNode = new Node(data);
         if (head == null) {
-            System.out.println("Error: no hay nodos");
+            head = newNode;
             return;
         }
 
@@ -63,12 +62,9 @@ public class DoubleLinkedList {
         qty++;
     }
 
-    /**
-     * Inserta un nodo en una posición específica (1-indexada).
-     * Si la posición es 1 se delega a insertBeforeData, si es mayor que
-     * la cantidad de nodos +1 se imprime un mensaje de error.
-     */
     private void newNodePosition(int position, int data) {
+        Node newNode = new Node(data);
+
         if (position < 1 || position > qty + 1) {
             System.out.println("La posicion no existe, nodos disponibles " + qty);
             return;
@@ -76,8 +72,7 @@ public class DoubleLinkedList {
 
         if (position == 1) {
             if (head == null) {
-                // lista vacía, simplemente insertar al final
-                head = new Node(data);
+                head = newNode;
                 qty++;
             } else {
                 insertBeforeData(data);
@@ -92,9 +87,7 @@ public class DoubleLinkedList {
             count++;
         }
 
-        // temp ahora apunta al nodo anterior a la posición deseada
         if (temp == null) {
-            // posición fuera de rango, pero ya fue validada
             return;
         }
 
@@ -103,7 +96,6 @@ public class DoubleLinkedList {
             return;
         }
 
-        Node newNode = new Node(data);
         newNode.next = temp.next;
         newNode.back = temp;
         temp.next.back = newNode;
@@ -111,9 +103,6 @@ public class DoubleLinkedList {
         qty++;
     }
 
-    /**
-     * Elimina un nodo con el valor especificado.
-     */
     private void deleteNode(int data) {
         if (head == null) {
             System.out.println("No hay nodos disponibles");
@@ -148,6 +137,46 @@ public class DoubleLinkedList {
         System.out.println("Nodo eliminado");
     }
 
+    private void nextOne(){
+        if (head.next == null) {
+            System.out.println("fin de la lista");
+            return;
+        }
+        head = head.next;
+        System.out.println(head.data);
+    }
+
+    private void backOne(){
+        if (head.back == null) {
+            System.out.println("Estas en el inicio de la lista");
+            return;
+        }
+        head = head.back;
+        System.out.println(head.data);
+    }
+
+    private void deleteFirst(){
+        head = head.next;
+        head.back = null;
+    }
+
+    private void deleteLast(){
+        Node temp = head;
+        int count = 1;
+        while (count < qty - 1 && temp != null) {
+            temp = temp.next;
+            count++;
+        }
+
+        temp.next.back = null;
+        temp.next = null;
+        qty--;
+    }
+
+    private void deleteAll(){
+        head = null;
+    }
+
     public void doubleLinkMenu(){
         Scanner sc = new Scanner(System.in);
         int menuSelection;
@@ -158,11 +187,16 @@ public class DoubleLinkedList {
                     ----------------------------------------
                     Selecione una de opcion disponibles
                     1. Mostrar nodos.
-                    2. Agregar un nuevo nodo (final).
-                    3. Agregar al inicio (cabeza).
+                    2. Agregar un nuevo nodo.
+                    3. Agregar al inicio.
                     4. Insertar en posicion.
                     5. Eliminar un nodo.
-                    6. Salir.
+                    6. Avanzar 1
+                    7. Retroceder 1
+                    8. Borrar todo
+                    9. Borrar el primero
+                    10. Borrar el ultimo
+                    11. Salir.
                     """);
             menuSelection = sc.nextInt();
 
@@ -193,12 +227,29 @@ public class DoubleLinkedList {
                     deleteNode(del);
                     break;
                 case 6:
+                    nextOne();
+                    break;
+                case 7:
+                    backOne();
+                    break;
+                case 8:
+                    deleteAll();
+                    break;
+                case 9:
+                    deleteFirst();
+                    break;
+                case 10:
+                    deleteLast();
+                    break;
+                case 11:
                     System.out.println("Adioooooooooos!! ww");
                     break;
                 default:
                     break;
             }
-        } while (menuSelection != 6);
+        } while (menuSelection != 11);
     }
 }
-
+//
+//  /\_/\
+// ( x.o )
